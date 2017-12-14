@@ -94,7 +94,11 @@ class User(UserMixin, db.Model):
 
 
 
-
+class Mages(db.Model):
+    __tablename__="images"
+    id = db.Column(db.Integer,primary_key=True)
+    name=db.Column(db.String(400),unique=True)
+    data = db.Column(db.LargeBinary)
 
 
 
@@ -190,7 +194,8 @@ class LoginForm(FlaskForm):
 
 
 
-
+class UploadForm(FlaskForm):
+    file = FileField()
 
 
 
@@ -395,6 +400,33 @@ def check_this_class(fclass):
     
 
     
+@app.route('/upload',methods=['GET','POST'])
+
+def uploadfunct():
+    form = UploadForm()
+    print("test1")
+    if request.method == "POST":
+        print("test2")
+        filename=secure_filename(form.file.data.filename)
+        form.file.data.save('static/' + filename)
+        #pdb.set_trace()
+        #request.files['file'])
+
+
+        file = request.files['file']
+       # print("test3")
+        newimage=Mages(name=form.file.data.filename,data=file.read())
+        db.session.add(newimage)
+        db.session.commit()
+        print("success")
+#        form.file.data.save('/static/imgs/'+filename)
+        flash("you have successfully saved this file")
+        return redirect(url_for('index'))
+    return render_template('upload.html',form=form)
+
+
+
+
 
 
 if __name__ == '__main__':
