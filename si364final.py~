@@ -1,0 +1,31 @@
+# SI364- Final
+
+
+import os
+from flask import Flask,render_template, session, redirect, url_for, flash
+from flask_wtf import FlaskForm
+from flask_script import Manager, Shell
+from wtforms import StringField, SubmitField
+from wtforms.validator import Required
+from flask_sqlalchemy import SQLAlchemy
+import pdb
+
+basedir=os.path.abspath(os.path.dirname(__file__))
+
+app=Flask(__name__)
+app.debug= True
+app.config['SECRET_KEY']='thisisaveryhardkeytofindbecauseitiscreatedbyme'
+app.config["SQLALCHEMY_DATABASE_URI"]="postgresql://localhost/hushizhfinal"
+app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN']=True
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+manager = Manager(app)
+db = SQLALchemy(app)
+
+def make_shell_context():
+    return dict(app=app,db=db,Class=Class,Skill=Skill,Level=Level)
+
+
+manager.add_command("shell",Shell(make_context=make_shell_context))
+
+

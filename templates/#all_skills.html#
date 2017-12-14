@@ -1,0 +1,17 @@
+{% extends "index.html" %}
+
+{% block title %} All_skills {% endblock %}
+
+{% block content %}
+  {{ super() }}
+  <ul>
+    {% for tw in all_skills %}
+    <li>{{ tw[0] }}<br><i>owned by</i> <strong>@{{ tw[1] }} </strong></li><br><br>
+    {% endfor %}
+  </ul>
+  
+  {% if not all_skills %}
+  There are no saved skills  to show.
+  {% endif %}
+
+{% endblock %}

@@ -1,0 +1,11 @@
+<h1>Create New Class's Skills</h1>
+
+<form method="POST">
+  {{ form.hidden_tag() }}
+  {{ form.class_name.label }} {{ form.class_name() }}
+  {{ form.skill_picks.label }} {{ form.skill_picks() }}
+  {{ form.submit.label }}{{ form.submit() }}
+</form>
+
+<p><a href="{{ url_for('index') }}">Go To Main Page</a></p>
+<p><a href="{{ url_for('see_all_skills') }}">See All Skils</a></p>

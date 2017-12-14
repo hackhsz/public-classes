@@ -1,0 +1,6 @@
+{% for a in data %}
+     <li>
+       <li>Description: {{a[0]}} </li>
+       <li>Url: {{a[1]}} </li>
+     </li>
+  {% endfor %}

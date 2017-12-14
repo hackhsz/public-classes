@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+  <head>
+    {% block head %}
+    <title> {% block title %}{% endblock %} - IndexPage </title>
+    {% endblock %}
+  </head>
+  <div class="page-header">
+    <h1>{% if num_skills %}{{ num_skills }}{% else %}0{% endif %} possible skills  saved. </h1>
+    <p><a href="{{ url_for('index') }}">Go To Main Page</a></p>
+    
+  </div>
+  {% block content %}
+  <form method="POST">
+    
+    {{ form.skill_name.label }} {{ form.skill_name() }}
+    {{ form.level.label }} {{ form.level() }}
+    {{form.section_name.label}} {{form.section_name()}}
+    {{ form.submit() }}
+  </form>
+  {% endblock %}
+
+  <div>
+    {% for message in get_flashed_messages() %}
+    {{ message }}
+    {% endfor %}
+  </div>
+</html>
