@@ -37,6 +37,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL') or "postg
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+
 # Set up email config stuff
 app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
 app.config['MAIL_PORT'] = 587 #default
@@ -147,7 +148,7 @@ class Skill(db.Model):
 class SkillForm(FlaskForm):
     skill_name = StringField("What is the skill name of this",validators=[Required()])
     level = StringField("What is the level of this skill",validators=[Required()])
-    section_name=StringField("Name of this class?")
+    section_name=StringField("Name of parent skill_section?")
 
     submit=SubmitField("Submit this Skill")
 
@@ -350,12 +351,14 @@ def index():
 @app.route('/all_skills')
 def see_all_skills():
     all_skills=[]
+    skills = Skill.query.all()
+    length_skills = len(skills)
     form = SkillForm()
     skills = Skill.query.all()
     for skill in skills:
         skillsec = Skillsection.query.filter_by(id=skill.skillsections_id).first()
         all_skills.append((skill.name,skillsec.name))
-    return render_template('all_skills.html',all_skills=all_skills,form=form)
+    return render_template('all_skills.html',all_skills=all_skills,form=form,num_skills=length_skills)
 
 
 @app.route('/create_class',methods=["GET","POST"])
@@ -370,9 +373,12 @@ def create_class_list():
         selected = form.skill_picks.data
         skill_objects = [get_skill_by_id(int(id)) for id in selected]
         get_or_create_class(db.session,class_num=form.class_number.data,list_of_skills=skill_objects,this_user=current_user)
+        flash("You are now logged in")
         class_str="si "+str(form.class_number.data) 
         temp1=str(form.class_number.data)
-       
+        
+
+         #flash("You are now logged in")
         return render_template('thisclass.html',class_num=temp1)
     return render_template('class_list.html',form=form)
 
@@ -394,8 +400,17 @@ def check_this_class(fclass):
     response = requests.get(baseURL,params=parameters)
     repsonsew = json.loads(response.text)
     newlist=[]
-    for i in range(0,4):
-        newlist.append((repsonsew["items"][i]["snippet"][0:200],repsonsew["items"][i]['pagemap']['metatags'][0]["twitter:url"]))
+    #pdb.set_trace()
+#    print(repsonsew["items"][0]['pagemap']['metatags'][0]["twitter:url"])
+    len_response = len(repsonsew['items'])
+    
+    for i in range(0,min(4,len_response)):
+        dict1= repsonsew["items"][i]['pagemap']['metatags'][0]
+        if "twitter:url" in dict1.keys():
+            newlist.append((repsonsew["items"][i]["snippet"][0:200],repsonsew["items"][i]['pagemap']['metatags'][0]["twitter:url"]))
+        else:
+            newlist.append((repsonsew["items"][i]["snippet"][0:200],"url does not exist"))
+    flash("Sorry, Google does not support this")
     return render_template('class_info.html',data=newlist)
     
 

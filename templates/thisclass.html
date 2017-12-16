@@ -1,4 +1,7 @@
 <ul>
+  <h2> Successfully Create Class {{class_num}} </h2>
   <h2> Ready For some interesting data of this {{class_num}}?</h2>
        <li>Result on Google: <a href="http://localhost:5000/classview/{{class_num}}">{{class_num}} </a> </li>
+  <h2> Not Yet? </h2>
+       <p><a href="{{ url_for('index') }}">Go To Main Page</a></p>
 </ul>

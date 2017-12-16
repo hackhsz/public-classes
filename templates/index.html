@@ -8,6 +8,7 @@
   <div class="page-header">
     <h1>{% if num_skills %}{{ num_skills }}{% else %}0{% endif %} possible skills  saved. </h1>
     <p><a href="{{ url_for('index') }}">Go To Main Page</a></p>
+    <p><a href="{{ url_for('see_all_skills') }}"> See All Skills</a></p>
     
   </div>
   {% block content %}

@@ -5,7 +5,7 @@
   {{ super() }}
   <ul>
     {% for tw in all_skills %}
-    <li>{{ tw[0] }}<br><i>owned by</i> <strong>@{{ tw[1] }} </strong></li><br><br>
+    <li>{{ tw[0] }}<br><i>belongs to </i> <strong>{{ tw[1] }} </strong>skill_section</li><br><br>
     {% endfor %}
   </ul>
   
