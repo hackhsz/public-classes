@@ -20,7 +20,7 @@ Please Note:
       4. export FLASK_APP=a634.py  | python -m flask run
       5. To test, please create a database called "hushizh_testdb" on local to use the test
       6. To run test, type: python a634_test.py 
-      7. Heroku Address: https://git.heroku.com/a634.git
+      7. Heroku Address: https://a634.herokuapp.com
       8. The screen shots of being added to database are under folder called "Adding_To_The_Tables
       9. Things need to be installed are at requirements.txt
       9. Enjoy!
